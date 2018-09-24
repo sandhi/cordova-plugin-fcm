@@ -25,7 +25,10 @@ FCMPlugin.prototype.onTokenRefresh = function( callback ){
 FCMPlugin.prototype.getToken = function( success, error ){
 	exec(success, error, "FCMPlugin", 'getToken', []);
 }
-
+// REVOKE TOKEN //
+FCMPlugin.prototype.revokeToken = function (success, error) {
+	exec(success, error, "FCMPlugin", 'revokeToken', []);
+}
 // DEFAULT NOTIFICATION CALLBACK //
 FCMPlugin.prototype.onNotificationReceived = function(payload){
 	console.log("Received push notification")

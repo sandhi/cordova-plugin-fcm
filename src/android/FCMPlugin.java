@@ -49,6 +49,7 @@ public class FCMPlugin extends CordovaPlugin {
 			}
 			// GET TOKEN //
 			else if (action.equals("getToken")) {
+				Log.d(TAG,"Getting token.....");
 				cordova.getActivity().runOnUiThread(new Runnable() {
 					public void run() {
 						try{
@@ -57,6 +58,24 @@ public class FCMPlugin extends CordovaPlugin {
 							Log.d(TAG,"\tToken: "+ token);
 						}catch(Exception e){
 							Log.d(TAG,"\tError retrieving token");
+						}
+					}
+				});
+			}
+			// REVOKE TOKEN
+			else if (action.equals("revokeToken")) {
+				Log.d(TAG,"Revoking token.....");
+				cordova.getThreadPool().execute(new Runnable() {
+					public void run() {
+						try {
+							FirebaseInstanceId.getInstance().deleteInstanceId();
+							
+							String token = FirebaseInstanceId.getInstance().getToken();
+							callbackContext.success(FirebaseInstanceId.getInstance().getToken());
+							Log.d(TAG,"Revoke Token Success");
+						} catch (Exception e) {
+							callbackContext.error(e.getMessage());
+							Log.d(TAG, "Revoke Token Failed");
 						}
 					}
 				});
